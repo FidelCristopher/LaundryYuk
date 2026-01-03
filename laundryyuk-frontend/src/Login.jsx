@@ -16,9 +16,9 @@ function Login() {
     setIsLoading(true);
 
     if (!username || !password) {
-        setMessage('Mohon isi semua field.');
-        setIsLoading(false);
-        return;
+      setMessage('Mohon isi semua field.');
+      setIsLoading(false);
+      return;
     }
 
     try {
@@ -28,9 +28,21 @@ function Login() {
       });
 
       if (response.data.success) {
-        const userRole = response.data.user.role;
+        const userData = response.data.user; 
+        const userRole = userData.role;
+
+        // 1. SIMPAN DATA USER KE LOCALSTORAGE
+        localStorage.setItem('user', JSON.stringify(userData));
+
         setMessage(`Login Berhasil! Selamat datang ${username} (${userRole}).`);
-        console.log("Data user:", response.data.user);
+        console.log("Data user berhasil disimpan:", userData);
+
+        // 2. REDIRECT BERDASARKAN ROLE
+        if (userRole === 'customer') {
+          window.location.href = '/customer'; 
+        } else if (userRole === 'admin') {
+          window.location.href = '/admin'; 
+        }
 
       } else {
         setMessage(response.data.message || 'Login gagal. Silakan coba lagi.');
