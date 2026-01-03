@@ -275,23 +275,29 @@ function Home() {
             const response = await fetch('http://localhost:5000/api/login', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(loginData),
+                body: JSON.stringify({ 
+                    email: loginData.email, 
+                    password: loginData.password 
+                }),
             });
 
             const data = await response.json();
 
             if (response.ok) {
-                alert("Login Berhasil!");
-                // Simpan data user ke localStorage 
-                localStorage.setItem('user', JSON.stringify(data.user));
-                
-                // PINDAH KE HALAMAN CUSTOMER
-                navigate('/customer'); 
-            } else {
                 alert(data.message);
+                localStorage.setItem('user', JSON.stringify(data.user));
+
+                if (data.user.role === 'admin') {
+                    navigate('/admin-dashboard'); 
+                } else {
+                    navigate('/customer'); 
+                }
+            } else {
+                alert(data.message || "Login Gagal");
             }
         } catch (error) {
-            alert("Gagal terhubung ke server");
+            console.error("Login error:", error);
+            alert("Terjadi kesalahan pada server");
         }
     };
     
@@ -409,7 +415,7 @@ function Home() {
                         <div style={circleStyle}></div>
                         <h3 style={{fontStyle: 'Medium', color: '#152B57'}}>Dry Clean Jas</h3>
                         <p style={{fontSize: '14px', fontStyle: 'Regular' , margin: '-10px', color: '#92A0B6'}}>Dry Cleaning untuk Jas</p>
-                        <p style={{fontSize: '14px', fontStyle: 'Regular' , margin: '30px', color: '#1E1E1E'}}>Rp25.000 /kg</p>
+                        <p style={{fontSize: '14px', fontStyle: 'Regular' , margin: '30px', color: '#1E1E1E'}}>Rp25.000 /piece</p>
                     </div>
 
                     {/* Card 6 */}
@@ -441,7 +447,7 @@ function Home() {
                         <div style={circleStyle}></div>
                         <h3 style={{fontStyle: 'Medium', color: '#152B57'}}>Cuci Karpet</h3>
                         <p style={{fontSize: '14px', fontStyle: 'Regular' , margin: '-10px', color: '#92A0B6'}}>Cuci karpet berbagai ukuran</p>
-                        <p style={{fontSize: '14px', fontStyle: 'Regular' , margin: '30px', color: '#1E1E1E'}}>Rp50.000 /kg</p>
+                        <p style={{fontSize: '14px', fontStyle: 'Regular' , margin: '30px', color: '#1E1E1E'}}>Rp50.000 /piece</p>
                     </div>
 
                     {/* Card 10 */}

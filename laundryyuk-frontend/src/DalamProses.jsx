@@ -26,7 +26,11 @@ const DalamProses = () => {
                 console.log("Data dari server:", data);
                 
                 if (response.ok) {
-                    setPesananProses(data);
+                    const filteredData = data.filter(item => 
+                        item.status.toLowerCase() !== 'completed' && 
+                        item.status.toLowerCase() !== 'cancelled'
+                    );
+                    setPesananProses(filteredData);
                 }
             } catch (error) {
                 console.error("Fetch error:", error);
@@ -57,16 +61,21 @@ const DalamProses = () => {
         alignItems: 'center'
     };
 
-    const statusBadge = (status) => ({
-        backgroundColor: status === 'pending' ? '#FFE16A' : '#70d6ff',
-        padding: '6px 15px',
-        borderRadius: '20px',
-        fontSize: '12px',
-        fontWeight: 'bold',
-        color: '#152B57'
-    });
+    const statusBadge = (status) => {
+        let bgColor = '#70d6ff'; 
+        if (status === 'pending') bgColor = '#FFE16A'; 
+        if (status === 'ready_for_pickup') bgColor = '#97f9bb'; 
 
-    // ... kode useEffect dan logic lainnya tetap sama ...
+        return {
+            backgroundColor: bgColor,
+            padding: '6px 15px',
+            borderRadius: '20px',
+            fontSize: '12px',
+            fontWeight: 'bold',
+            color: '#152B57',
+            display: 'inline-block'
+        };
+    };
 
     return (
         <div style={containerStyle}>

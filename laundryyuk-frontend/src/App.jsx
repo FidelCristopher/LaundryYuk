@@ -7,6 +7,8 @@ import Login from './login';
 import CustomerDashboard from './CustomerDashboard';
 import Pemesanan from './Pemesanan';
 import DalamProses from './DalamProses';
+import AdminDashboard from './AdminDashboard';
+import RiwayatPesanan from './RiwayatPesanan';
 
 function App() {
   return (
@@ -24,6 +26,10 @@ function App() {
           <Route path="/pemesanan" element={<Pemesanan />} />
           
           <Route path="/dalamproses" element={<DalamProses />} />
+
+          <Route path="/admin-dashboard" element={<AdminDashboard />} />
+
+          <Route path="/riwayat" element={<RiwayatPesanan />} />
 
         </Routes>
       </div>

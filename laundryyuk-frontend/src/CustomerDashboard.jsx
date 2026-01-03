@@ -54,11 +54,19 @@ const CustomerDashboard = () => {
                 body: JSON.stringify(loginData),
             });
             const data = await response.json();
+            
             if (response.ok) {
                 alert("Login Berhasil!");
+                // Simpan data user (termasuk role) ke localStorage
                 localStorage.setItem('user', JSON.stringify(data.user));
                 setAuthMode(null);
-                window.location.reload(); 
+
+                // LOGIKA NAVIGASI BERDASARKAN ROLE
+                if (data.user.role === 'admin') {
+                    navigate('/admin-dashboard'); // Arahkan ke dashboard admin
+                } else {
+                    window.location.reload(); // Tetap di sini untuk customer
+                }
             } else {
                 alert(data.message);
             }
